@@ -1,16 +1,19 @@
 import React, { CSSProperties } from "react";
 
+
 type Props = {
-    children: React.ReactChild,
+  children: React.ReactChild
   };
 
 export default function Section(props: Props) {
 
-    return (
-        <div className="section" style={containerStyle}>
-            {props.children}
-        </div>
-    )
+  return (
+    <div className="section" style={containerStyle}>
+      {props.children}
+    </div>
+  )
+  
+
 }
 
 
