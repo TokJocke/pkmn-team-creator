@@ -1,10 +1,10 @@
 import React, { CSSProperties } from "react";
 
 type Props = {
-    title?: string,
-    detail?: string,
-    isSelected?: boolean,
+    title?: string
+    isSelectedStyle?: CSSProperties
     selector: (obj: string) => void
+    children?: any
   };
 
 export default function Card(props: Props) {
@@ -27,10 +27,10 @@ export default function Card(props: Props) {
 
 
     return (
-                                                    /* Uppdateran denna if i style när nästa api integreras */
-        <div onClick={() => handleSelector()} style={props.isSelected? {...card, backgroundColor: "green"} : {...card, backgroundColor: "white"}}>
+                                                    
+        <div onClick={() => handleSelector()} style={{...props.isSelectedStyle, ...card}}>
             {renderTitle()}
-           
+            {props.children}
         </div>
     )
 }
@@ -43,7 +43,8 @@ const card: CSSProperties = {
     padding: "10px",
     cursor: "pointer",
     display:"flex", 
-    alignItems:"center"
+    alignItems:"center",
+    flexDirection: "column"
 }
 
 const titleStyle: CSSProperties = {

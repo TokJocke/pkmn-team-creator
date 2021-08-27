@@ -1,82 +1,41 @@
 import React, { CSSProperties } from "react";
-import RenderList from "./renderList";
+import FloatingBtns from "./floatingBtns";
+import Pokemons from "./pokemons";
 import Section from "./section";
+import Teams from "./teams";
 
+/* 
 
+Add state here or in pokemons that calculates allTeams.length to be able to calculate the last teams id and ++ its value 
+Also add state for should update to be able to create rerender when new team added. 
+and send array with selectedPokemons to save as state 
+move up pokemon and teams state to this component and pass them down as props
+*/
 interface Props {
 
 }
 
-interface State {
-    pokemon: PokemonDetail[],
-    teams: []
-}
-
-interface PokemonDetail {
-    id: number,
-    name: string,
-    isSelected?: boolean
-}
-
-
-export default class Main extends React.Component<Props, State> {
+export default class Main extends React.Component<Props> {
     constructor(props: any) {
         super(props);
         this.state = {
-            pokemon: [],
-            teams: []
+            selectedPkmn: [],
         };
-      
-        this.selector = this.selector.bind(this)
     }
- 
-    getPokemons = async () => {
-
-        const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=150`);
-        const jsonData = await response.json();
-        const allPokemons: PokemonDetail[] = jsonData.results.map((pokemon: {name: string, url: string}) => {
-            return {
-                name: pokemon.name,
-                id: pokemon.url.substr(pokemon.url.indexOf('pokemon/')).replace(/\D/g,''),
-                isSelected: false
-            }
-        })
-        this.setState({pokemon: allPokemons}, () => { console.log(this.state) })
-
-    };
-    
-    selector(obj: string) {
-        const foundPokemon = (pokemon: PokemonDetail) => {
-            return pokemon.name === obj;
-          };
-        let clonedArray = this.state.pokemon
-        let pkmn = clonedArray.find(foundPokemon)
-        if(pkmn) {
-            pkmn.isSelected = !pkmn.isSelected
-            this.setState({
-                pokemon: clonedArray
-            })
-        } 
-
-        console.log(this.state)
-    }
-
-    componentDidMount() {
-        if(!this.state.pokemon.length) {
-            this.getPokemons()
-            
-        }
+    setSelectedPkmn() {
+        
     }
  
     render() {
         return (
             <div style={wrapper}>
                 <Section>
-                    <RenderList selector={this.selector} list={this.state.pokemon} />
+                    <Pokemons/>
                 </Section>
                 <Section>
-                    hejsan
-                </Section>
+                    <Teams/>
+                </Section>  
+                <FloatingBtns />
             </div>
         )
     }
