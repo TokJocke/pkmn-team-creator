@@ -44,7 +44,8 @@ const card: CSSProperties = {
     cursor: "pointer",
     display:"flex", 
     alignItems:"center",
-    flexDirection: "column"
+    flexDirection: "column",
+    
 }
 
 const titleStyle: CSSProperties = {

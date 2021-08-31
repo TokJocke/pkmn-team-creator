@@ -6,4 +6,19 @@ GET http://localhost:3000/api/get-all-teams
 
 ###
 
-POST http://localhost:3000/api/save-team
+GET http://localhost:3000/api/get-team/1 
+
+###
+
+POST http://localhost:3000/api/save-new-team
+Content-Type: application/json
+
+{
+    "id": "101",
+    "name": "test101",
+    "pkmn": ["1", "2", "3", "4", "5", "6"]
+}
+
+###
+
+DELETE http://localhost:3000/api/delete-team/b881cab9-d7ad-46cc-9b05-ec7d455aaf06
