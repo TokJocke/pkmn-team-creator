@@ -3,39 +3,144 @@ import FloatingBtns from "./floatingBtns";
 import Pokemons from "./pokemons";
 import Section from "./section";
 import Teams from "./teams";
+import UpdateView from "./updateView";
+import UpdateModal from "./updateView";
 
-/* 
-
-Add state here or in pokemons that calculates allTeams.length to be able to calculate the last teams id and ++ its value 
-Also add state for should update to be able to create rerender when new team added. 
-and send array with selectedPokemons to save as state 
-move up pokemon and teams state to this component and pass them down as props
-*/
 interface Props {
 
 }
+interface State {
+    pokemon: PokemonDetail[],
+    teams: TeamDetails[],
+    selectedPkmns: any[],
+    isUpdateViewOpen: boolean,
+    currentTeam?: number
+}
 
-export default class Main extends React.Component<Props> {
+export interface PokemonDetail {
+    id: number,
+    name: string,
+    isSelected?: boolean
+}
+
+export interface TeamDetails {
+    id: number,
+    name: string,
+    pkmn: string[]
+    isSelected?: boolean
+}
+
+
+/* Kanske ha en api komponent för att slippa wall of text i main */
+export default class Main extends React.Component<Props, State> {
     constructor(props: any) {
         super(props);
         this.state = {
-            selectedPkmn: [],
+            pokemon: [],
+            teams: [],
+            selectedPkmns: [],
+            isUpdateViewOpen: false,
         };
     }
-    setSelectedPkmn() {
+
+    setisUpdateViewOpen: (id?: number) => void = (id?) => {
+        this.setState({
+            isUpdateViewOpen: !this.state.isUpdateViewOpen,   
+            currentTeam: id
+        })
+    }
+
+    updatePkmnState: (newState: any) => void = (newState: any) => {
+        this.setState({
+            pokemon: newState
+        }, () => this.getSelectedPkmns())
+    }
+
+    updateTeamState: (newState: any) => void = (newState: any) => {
+        this.setState({
+            teams: newState
+        }, () => console.log("new state in main: ", this.state))
+    }
+
+    getSelectedPkmns() { 
+        if(this.state.pokemon.length) {
+            let selected: any = []
+            this.state.pokemon.forEach(pkmn => {
+                if(pkmn.isSelected) {
+                    selected.push(pkmn.id)
+                }
+            });
+            this.setState({selectedPkmns: selected}, () => console.log(this.state.selectedPkmns))
+        }
+    }
+    
+    getPokemons = async () => {
         
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=150`);
+        const jsonData = await response.json();
+        const allPokemons: PokemonDetail[] = jsonData.results.map((pokemon: {name: string, url: string}) => {
+            return {
+                name: pokemon.name,
+                id: pokemon.url.substr(pokemon.url.indexOf('pokemon/')).replace(/\D/g,''),
+                isSelected: false
+            }
+        })
+        this.setState({pokemon: allPokemons}, () => { console.log(this.state) })
+    };
+
+    getTeams = async () => {
+
+        const response = await fetch(`http://localhost:3000/api/get-all-teams`);
+        const jsonData = await response.json();
+       
+        const allTeams: TeamDetails[] = jsonData.map((team: TeamDetails) => {
+            return {
+                id: team.id,
+                name: team.name,
+                pkmn: team.pkmn,
+            }
+        })
+        this.setState({teams: allTeams}, () => { console.log("team state in getTeams =",this.state.teams) })
+    };
+    
+    componentDidMount() {
+        if(!this.state.pokemon.length) {
+            this.getPokemons() 
+        }
+        if(!this.state.teams.length) {
+            this.getTeams() 
+        }
     }
  
     render() {
         return (
             <div style={wrapper}>
                 <Section>
-                    <Pokemons/>
+                    <Pokemons 
+                        pokemon={this.state.pokemon} 
+                        updatePkmnState={this.updatePkmnState}
+                    />
                 </Section>
                 <Section>
-                    <Teams/>
+                    <Teams 
+                        teams={this.state.teams} 
+                        updateTeamState={this.updateTeamState} 
+                        getTeams={this.getTeams} 
+                        setIsModalOpen={this.setisUpdateViewOpen}
+                    />
                 </Section>  
-                <FloatingBtns />
+                {
+                    this.state.pokemon.length? 
+                        <FloatingBtns selectedPkmns={this.state.selectedPkmns} getTeams={this.getTeams}/> 
+                        : 
+                        null 
+                }
+                {
+                    this.state.isUpdateViewOpen?
+                        <UpdateView setIsModalOpen={this.setisUpdateViewOpen} currentTeam={this.state.currentTeam}/>
+                        :
+                        null
+                }
             </div>
         )
     }
