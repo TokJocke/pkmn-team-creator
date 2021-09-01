@@ -38,14 +38,15 @@ export default function Card(props: Props) {
 
 const card: CSSProperties = {
     
-/*     backgroundColor: "green",
- */    borderBottom: "3px solid black",
+    border: "1px solid black",
     padding: "10px",
     cursor: "pointer",
     display:"flex", 
     alignItems:"center",
     flexDirection: "column",
-    
+    width: "100%",
+    marginBottom: "5px",
+    borderRadius: "5px"
 }
 
 const titleStyle: CSSProperties = {

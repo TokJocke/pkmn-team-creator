@@ -4,7 +4,6 @@ import Pokemons from "./pokemons";
 import Section from "./section";
 import Teams from "./teams";
 import UpdateView from "./updateView";
-import UpdateModal from "./updateView";
 
 interface Props {
 
@@ -14,7 +13,7 @@ interface State {
     teams: TeamDetails[],
     selectedPkmns: any[],
     isUpdateViewOpen: boolean,
-    currentTeam?: number
+    currentTeam?: TeamDetails
 }
 
 export interface PokemonDetail {
@@ -43,11 +42,20 @@ export default class Main extends React.Component<Props, State> {
         };
     }
 
-    setisUpdateViewOpen: (id?: number) => void = (id?) => {
+    setisUpdateViewOpen: (team?: TeamDetails, event?: any) => void = (team?, event?) => {
+        if(event) {
+            event.stopPropagation()
+        }
         this.setState({
             isUpdateViewOpen: !this.state.isUpdateViewOpen,   
-            currentTeam: id
+            currentTeam: team
         })
+    }
+
+    setCurrentTeam: (team: any) => void = (team) => {
+        this.setState({
+            currentTeam: team
+        }, () => console.log(this.state.currentTeam))
     }
 
     updatePkmnState: (newState: any) => void = (newState: any) => {
@@ -114,7 +122,7 @@ export default class Main extends React.Component<Props, State> {
  
     render() {
         return (
-            <div style={wrapper}>
+            <div id="main" style={wrapper}>
                 <Section>
                     <Pokemons 
                         pokemon={this.state.pokemon} 
@@ -137,7 +145,12 @@ export default class Main extends React.Component<Props, State> {
                 }
                 {
                     this.state.isUpdateViewOpen?
-                        <UpdateView setIsModalOpen={this.setisUpdateViewOpen} currentTeam={this.state.currentTeam}/>
+                        <UpdateView 
+                            setIsModalOpen={this.setisUpdateViewOpen} 
+                            currentTeam={this.state.currentTeam}
+                            pokemonList={this.state.pokemon}
+                            setCurrentTeam={this.setCurrentTeam}
+                            />
                         :
                         null
                 }

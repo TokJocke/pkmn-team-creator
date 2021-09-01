@@ -17,7 +17,7 @@ export default function NewTeamBtn(props: Props) {
 
     async function postNewTeam() {
         //console.log("b4 fetch: ", team)
-        const response = await fetch("http://localhost:3000/api/save-new-team", {
+        await fetch("http://localhost:3000/api/save-new-team", {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(team)

@@ -16,6 +16,10 @@ code {
   display: none;
 }
 
+.noScrollBar::-webkit-scrollbar {
+  display: none;
+}
+
 /* #modal-root {
   position: absolute;
   top: 0;

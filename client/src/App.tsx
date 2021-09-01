@@ -1,5 +1,6 @@
 import React from 'react';
-import Main from './components/main';
+import { BrowserRouter } from 'react-router-dom';
+import DisplayView from './components/displayView';
 
 /* 
 This needs to be the source of truth for my api calls in order for the app work as intended
@@ -12,7 +13,9 @@ move up pokemon and teams state to this component and pass them down as props
 
 function App() {
   return (
-    <Main />
+    <BrowserRouter>
+        <DisplayView />    
+    </BrowserRouter>
   );
 }
 

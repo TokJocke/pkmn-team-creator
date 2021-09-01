@@ -11,7 +11,7 @@ export default function DeleteBtn(props: Props) {
     async function deleteTeam(event: any) {
         
         event.stopPropagation() //To stop bubbling
-        const response = await fetch(`http://localhost:3000/api/delete-team/${props.teamId}`, {
+        await fetch(`http://localhost:3000/api/delete-team/${props.teamId}`, {
             method: "DELETE",
             headers: { 'Content-Type': 'application/json' },
         })
