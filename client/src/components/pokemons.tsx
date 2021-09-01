@@ -33,10 +33,10 @@ export default class Pokemons extends React.Component<Props> {
 
     greenOrWhite(item: any) {
         if(item.isSelected) {
-            return {backgroundColor: "green"}
+            return {backgroundColor: "lightgreen"}
         }
         else {
-            return {backgroundColor: "white"}
+            return {backgroundColor: "rgba(230, 230, 230, 0.6)"}
         }
     }
  

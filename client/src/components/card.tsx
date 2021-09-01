@@ -5,6 +5,7 @@ type Props = {
     isSelectedStyle?: CSSProperties
     selector: (obj: string) => void
     children?: any
+    styling?: any
   };
 
 export default function Card(props: Props) {
@@ -28,7 +29,7 @@ export default function Card(props: Props) {
 
     return (
                                                     
-        <div onClick={() => handleSelector()} style={{...props.isSelectedStyle, ...card}}>
+        <div onClick={() => handleSelector()} style={{...props.isSelectedStyle, ...card, ...props.styling}}>
             {renderTitle()}
             {props.children}
         </div>
@@ -46,7 +47,7 @@ const card: CSSProperties = {
     flexDirection: "column",
     width: "100%",
     marginBottom: "5px",
-    borderRadius: "5px"
+    borderRadius: "5px",
 }
 
 const titleStyle: CSSProperties = {

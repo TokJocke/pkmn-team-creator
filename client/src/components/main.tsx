@@ -4,7 +4,7 @@ import Pokemons from "./pokemons";
 import Section from "./section";
 import Teams from "./teams";
 import UpdateView from "./updateView";
-
+import bgImg from "../img/pokemon-BG.jpg"
 interface Props {
 
 }
@@ -118,6 +118,7 @@ export default class Main extends React.Component<Props, State> {
         if(!this.state.teams.length) {
             this.getTeams() 
         }
+        console.log("bg", bgImg)
     }
  
     render() {
@@ -162,7 +163,8 @@ export default class Main extends React.Component<Props, State> {
 const wrapper: CSSProperties = {
     width: "100vw",
     height: "100vh",
-    backgroundColor: "blue",
-    display: "flex",
-    overflow: "auto"
+/*     backgroundColor: "blue",
+ */    display: "flex",
+    overflow: "auto",
+    backgroundImage: `url(${bgImg})`
 }

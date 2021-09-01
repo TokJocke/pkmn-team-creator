@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { PokemonDetail, TeamDetails } from "./main";
 import PkmnDropDown from "./pkmnDropDown";
 import TeamMember from "./teamMember";
+import UpdateBtn from "./updateBtn";
 
 type Props = {
     setIsModalOpen: (team?: TeamDetails) => void,
@@ -12,7 +13,6 @@ type Props = {
 };
 interface State {
     inputValue: any
-   /*  newTeam?: TeamDetails */
 }
   
   export default class UpdateView extends React.Component<Props, State> {
@@ -21,7 +21,6 @@ interface State {
         super(props);
         this.state = {
             inputValue: this.props.currentTeam?.name,
-           /*  newTeam: undefined */
         }
 
     }
@@ -30,33 +29,8 @@ interface State {
         event.stopPropagation()
     }
 
-/*     setNewTeam: (team?: TeamDetails) => void = (team) => {
-        this.setState({
-            newTeam: team
-        }, () => console.log(this.state.newTeam))
-    } */
 
     renderTeam() {
-    /* When rendering same child gives error cuz key should be unique */
-   /*      if(this.state.newTeam) {
-            return (
-                <div style={pkmnWrapp}>
-                    {this.state.newTeam.pkmn.map((item) => {
-                        console.log("newTeam", item)
-                        return (  
-                            <TeamMember 
-                                key={item}  
-                                pokemon={item} 
-                                changeBtn={true}
-                                allPokemons={this.props.pokemonList}
-                                currentTeam={this.props.currentTeam}
-                                setNewTeam={this.setNewTeam}
-                            /> 
-                        )
-                    })}
-                </div>
-            )
-        }    */ 
         if(this.props.currentTeam) {
             return (
                 <div style={pkmnWrapp}>
@@ -69,7 +43,6 @@ interface State {
                                 changeBtn={true}
                                 allPokemons={this.props.pokemonList}
                                 currentTeam={this.props.currentTeam}
-                                /* setNewTeam={this.setNewTeam} */
                                 setCurrentTeam={this.props.setCurrentTeam}
                             /> 
                         )
@@ -108,7 +81,7 @@ interface State {
                         onChange={this.updateInputValue}>
                     </input>
                     {this.renderTeam()}
-
+                    <UpdateBtn />
                 </div>
             </div>
         )
@@ -123,6 +96,7 @@ const modalStyle: CSSProperties = {
     display: "flex",
     flexDirection: "column",
     padding: "5px",
+    borderRadius: "10px"
 
 }   
 

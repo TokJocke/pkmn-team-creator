@@ -18,7 +18,7 @@ export default function Section(props: Props) {
 
 
 const containerStyle: CSSProperties = {
-    backgroundColor: "red",
+    //backgroundColor: "red",
     flex: 1,
     display: "flex",
     overflow: "auto",

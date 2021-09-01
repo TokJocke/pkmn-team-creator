@@ -47,7 +47,7 @@ export default class Teams extends React.Component<Props> {
                 {  
                     this.props.teams.map((team) => {
                     return (
-                        <Card key={team.id} title={team.name} selector={this.selectTeam}>
+                        <Card key={team.id} title={team.name} selector={this.selectTeam} styling={extraCardStyling}>
                             <div style={btwWrapp}>
                                 <DeleteBtn 
                                     teamId={team.id} 
@@ -82,10 +82,13 @@ export default class Teams extends React.Component<Props> {
 
 const teamContainer: CSSProperties = {
     display: "flex",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
 }
     
 const btwWrapp: CSSProperties = {
     display: "flex",
 }
     
+const extraCardStyling: CSSProperties = {
+    backgroundColor: "rgba(230, 230, 230, 0.6)",
+}

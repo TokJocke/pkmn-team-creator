@@ -22,3 +22,14 @@ Content-Type: application/json
 ###
 
 DELETE http://localhost:3000/api/delete-team/b881cab9-d7ad-46cc-9b05-ec7d455aaf06
+
+
+###
+
+PUT http://localhost:3000/api/update-team/1
+Content-Type: application/json
+
+{   
+    "name": "bytaTest101",
+    "pkmn": ["7", "8", "9", "10", "11", "12"]
+}

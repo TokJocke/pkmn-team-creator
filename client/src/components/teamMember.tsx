@@ -107,7 +107,8 @@ const teamMemberWrap: CSSProperties = {
     backgroundColor: "lightgray",
     border: "1px solid black",
     margin: "2px",
-    minWidth: "15%"
+    minWidth: "15%",
+    borderRadius: "10px"
 }
 
 const statWrapp: CSSProperties = {
