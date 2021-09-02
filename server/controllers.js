@@ -52,3 +52,22 @@ export const deleteTeam = (req, res) => {
         console.log(err)
     }
 }
+
+export const updateTeam = (req, res) => {
+    try {
+        let id = req.params.id
+        let rawPkmnTeams = fs.readFileSync("teams.json")
+        let pkmnTeams = JSON.parse(rawPkmnTeams)
+        
+        let team = pkmnTeams.find((team) => team.id == id)
+        
+        req.body.name? team.name = req.body.name : team.name
+        req.body.pkmn? team.pkmn = req.body.pkmn : team.pkmn
+        
+        fs.writeFileSync("teams.json", JSON.stringify(pkmnTeams))
+        res.status("200").json(req.body)
+
+    } catch(err) {
+        console.log(err)
+    }
+}

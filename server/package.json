@@ -5,7 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --ignore 'teams.json' index.js",
+    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -16,5 +16,9 @@
     "express-router": "0.0.1",
     "nodemon": "^2.0.12",
     "uuid": "^8.3.2"
+  },
+  "nodemonConfig": {
+    "ignore": ["/teams.json"]
   }
+
 }

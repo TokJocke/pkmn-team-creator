@@ -1,29 +1,18 @@
 import React from "react";
 import { CSSProperties } from "react";
+import { Link } from "react-router-dom";
 import Card from "./card";
 import DeleteBtn from "./deleteBtn";
 import List from "./list";
-import { TeamDetails } from "./main";
+import { PokemonDetail, TeamDetails } from "./main";
 import TeamMember from "./teamMember";
 
 interface Props {
     teams: TeamDetails[],
     getTeams: () => void,
     updateTeamState: (state: any) => void,
-    setIsModalOpen: (id?: number) => void
+    setIsModalOpen: (team?: TeamDetails, event?: any) => void,
 };
-
-/* interface State {
-    teams: TeamDetails[],
-   
-} */
-
-/* interface TeamDetails {
-    id: number,
-    name: string,
-    pkmn: string[]
-    isSelected?: boolean
-} */
 
 export default class Teams extends React.Component<Props> {
     constructor(props: any) {
@@ -47,38 +36,57 @@ export default class Teams extends React.Component<Props> {
        
     }
 
-/*     componentDidMount() {
-        if(!this.state.teams.length) {
-            this.getTeams()
-        }
+    stopExit(event: any) {
+        event.stopPropagation()
     }
- */
+
+
     render() {
         return (
-            <List>
+            <List extraStyling={{marginTop: "50px"}}>
                 {  
-                    this.props.teams.map((team) => {
-                    return (
-                        <Card key={team.id} title={team.name} selector={this.selectTeam}>
-                            <div style={btwWrapp}>
-                                <DeleteBtn 
-                                    teamId={team.id} 
-                                    getTeams={this.props.getTeams}
-                                />
-                                <button onClick={() => this.props.setIsModalOpen(team.id)}></button>{/* Bör ligga knapp för modal */}
-                            </div>
-                            <div style={teamContainer}>
-                                {
-                                    team.isSelected? 
-                                        team.pkmn.map((pk) => {
-                                            return <TeamMember pokemon={pk} />
-                                        }) 
-                                        : 
-                                        null
-                                }
-                            </div> 
-                        </Card>
-                    )            
+                    this.props.teams.map((team, i) => {
+                        return (
+                            <Card key={team.id} title={team.name} selector={this.selectTeam} styling={extraCardStyling}>
+                                <div style={teamOptionsWrapp}>
+                                    <div>
+                                        <button 
+                                            style={btnStyle}
+                                            onClick={(event) => this.props.setIsModalOpen(team, event)}
+                                        >
+                                            uppdate
+                                        </button>
+                        
+                                        <Link to={`/${team.id}`}>
+                                            <button style={btnStyle}>
+                                                Team page
+                                            </button>
+                                        </Link>
+                                    </div>
+                                    
+                                    <DeleteBtn 
+                                        teamId={team.id} 
+                                        getTeams={this.props.getTeams}
+                                    />
+
+                                </div>
+                                <div style={teamContainer}>
+                                    {
+                                        team.isSelected? 
+                                            team.pkmn.map((pk: PokemonDetail) => {
+                                                console.log(pk)
+                                                return <TeamMember 
+                                                            key={pk.id}/* Felet ligger här!!!!!! */
+                                                            pokemon={pk}
+                                                        />
+                                                
+                                            }) 
+                                            : 
+                                            null
+                                    }
+                                </div> 
+                            </Card>
+                        )            
                     })  
                 }
             </List>
@@ -89,9 +97,28 @@ export default class Teams extends React.Component<Props> {
 
 const teamContainer: CSSProperties = {
     display: "flex",
+    flexWrap: "wrap",
 }
-    
-const btwWrapp: CSSProperties = {
+        
+const extraCardStyling: CSSProperties = {
+    backgroundColor: "rgba(230, 230, 230, 0.6)",
+}
+
+const btnStyle: CSSProperties = {
+    backgroundColor: "lightgreen",
+    fontSize: "1.2em",
+    padding: "5px",
+    borderRadius: "5px",
+    border: "none",
+    marginRight: "5px",
+    cursor: "pointer"
+}
+
+const teamOptionsWrapp: CSSProperties = {
     display: "flex",
+    justifyContent: "space-between",
+    width: "100%",
+    paddingBottom: "10px",
+    marginBottom: "10px",
+    borderBottom: "2px solid rgb(230, 230, 230)"
 }
-    

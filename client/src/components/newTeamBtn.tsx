@@ -4,6 +4,8 @@ type Props = {
     inputValue: string
     selectedPkmn: any[]
     getTeams: () => void
+    resetIsSelected: () => void,
+    updateInputValue: (event?: any) => void
   };
 
 export default function NewTeamBtn(props: Props) {
@@ -13,17 +15,18 @@ export default function NewTeamBtn(props: Props) {
         pkmn: props.selectedPkmn
     }
 
-    /* Vid tid lägg till funktion som tömmer isSelected och inputvalue vid onclick */
 
     async function postNewTeam() {
-        //console.log("b4 fetch: ", team)
-        const response = await fetch("http://localhost:3000/api/save-new-team", {
+        
+        await fetch("http://localhost:3000/api/save-new-team", {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(team)
         })
         //console.log(response)
         props.getTeams()
+        props.resetIsSelected()
+        props.updateInputValue()
     }
 
     return (
@@ -36,6 +39,12 @@ export default function NewTeamBtn(props: Props) {
 
 
 const btn: CSSProperties = {
-    fontSize: "1.2em",
-    display: "flex"
+    fontSize: "1.5em",
+    width: "40%",
+    alignSelf: "center",
+   /*  marginTop: "15px", */
+    backgroundColor: "lightgreen",
+    borderRadius: "5px",
+    border: "none",
+    padding: "5px",
 }

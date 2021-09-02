@@ -1,14 +1,15 @@
 import React, { CSSProperties } from "react";
 
 type Props = { 
-    children: any
+    children: any,
+    extraStyling?: any
   };
 
 export default function List(props: Props) {
 
 
     return (
-        <div style={style}> 
+        <div style={{...style, ...props.extraStyling}}> 
             {props.children}
         </div> 
         
