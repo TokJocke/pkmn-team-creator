@@ -9,7 +9,8 @@ type Props = {
     setIsModalOpen: (team?: TeamDetails) => void,
     currentTeam?: TeamDetails,
     pokemonList: PokemonDetail[],
-    setCurrentTeam: (team: any) => void
+    setCurrentTeam: (team: any) => void,
+    getTeams: () => void
 };
 interface State {
     inputValue: any
@@ -38,7 +39,7 @@ interface State {
                         console.log("oldTeam", item)
                         return (  
                             <TeamMember 
-                                key={item} 
+                                key={item.id} 
                                 pokemon={item} 
                                 changeBtn={true}
                                 allPokemons={this.props.pokemonList}
@@ -81,7 +82,12 @@ interface State {
                         onChange={this.updateInputValue}>
                     </input>
                     {this.renderTeam()}
-                    <UpdateBtn />
+                    <UpdateBtn 
+                        setIsModalOpen={this.props.setIsModalOpen}
+                        inputValue={this.state.inputValue}
+                        currentTeam={this.props.currentTeam}
+                        getTeams={this.props.getTeams}
+                    />
                 </div>
             </div>
         )

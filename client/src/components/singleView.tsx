@@ -1,8 +1,8 @@
 import React, { CSSProperties } from "react";
-import { RouteComponentProps } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 import { TeamDetails } from "./main";
 import TeamMember from "./teamMember";
-
+import bgImg from "../img/pokemon-BG.jpg"
 
 export interface Props {
 
@@ -29,7 +29,7 @@ export default class SingleView extends React.Component<RouteComponentProps<{ te
                 name: jsonData.name,
                 pkmn: jsonData.pkmn
             }
-        }, () => console.log(this.state))
+        })
     };
 
 
@@ -44,12 +44,25 @@ export default class SingleView extends React.Component<RouteComponentProps<{ te
     render() {
         if(this.state.team) {
             return (
-                <div style={container}>
-                    {this.state.team.pkmn.map((item) => {
-                      {console.log(item)}  
-                        return <TeamMember pokemon={item} additionalStats={true}></TeamMember>
-                    })}
+                <div style={wrapper}>
+                    <h1 style={titleStyle}>{this.state.team.name}</h1>
+                    <div style={container}>
+                        {this.state.team.pkmn.map((item) => {
+                            return <TeamMember 
+                                        key={item.id} 
+                                        pokemon={item} 
+                                        additionalStats={true}
+                                        >
+                                    </TeamMember>
+                        })}
+                    </div>
+                    <Link to={`/`}>
+                        <button style={btnStyle}>
+                            Back
+                        </button>
+                    </Link>
                 </div>
+
             )
         } else {
             return (
@@ -67,5 +80,35 @@ export default class SingleView extends React.Component<RouteComponentProps<{ te
 
 const container: CSSProperties = {
     display: "flex",
-    justifyContent: "center"
+
+    alignItems: "flex-start",
+}
+
+const wrapper: CSSProperties = {
+    display: "flex",
+    flexDirection: "column",
+    width: "100vw",
+    height: "100vh",
+    alignItems: "center",
+    backgroundImage: `url(${bgImg})`,
+
+
+}
+
+const titleStyle: CSSProperties = {
+    fontSize: "5em",
+    color: "rgb(230, 230, 230)"
+}
+
+const btnStyle: CSSProperties = {
+    margin: "100px",
+    fontSize: "2.5em",
+    borderRadius: "5px",
+    paddingTop: "10px",
+    paddingBottom: "10px",
+    paddingRight: "35px",
+    paddingLeft: "35px",
+    backgroundColor: "lightgreen",
+    cursor: "pointer",
+    border: "none"
 }

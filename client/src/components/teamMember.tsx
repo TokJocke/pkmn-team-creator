@@ -31,7 +31,7 @@ export default class TeamMember extends React.Component<Props, State> {
        
     getPokemonDetails = async () => {
 
-        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${this.props.pokemon}`);
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${this.props.pokemon.id}`);
         const jsonData = await response.json();
 
         this.setState({
@@ -104,11 +104,13 @@ const teamMemberWrap: CSSProperties = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    backgroundColor: "lightgray",
+    backgroundColor: "beige",
     border: "1px solid black",
     margin: "2px",
     minWidth: "15%",
-    borderRadius: "10px"
+    borderRadius: "10px",
+    textTransform: "capitalize",
+ 
 }
 
 const statWrapp: CSSProperties = {

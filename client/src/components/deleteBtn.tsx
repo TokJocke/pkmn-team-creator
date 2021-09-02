@@ -28,4 +28,13 @@ export default function DeleteBtn(props: Props) {
 
 
 const btn: CSSProperties = {
+
+    backgroundColor: "rgb(255, 100, 100)",
+    fontSize: "1.2em",
+    padding: "5px",
+    borderRadius: "5px",
+    border: "none",
+    marginRight: "5px",
+    cursor: "pointer"
+    
 }

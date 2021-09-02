@@ -1,26 +1,45 @@
 import React, { CSSProperties } from "react";
+import { TeamDetails } from "./main";
 
 type Props = {
-/*     teamId: number,
-    getTeams: () => void */
+    setIsModalOpen: (team?: TeamDetails) => void,
+    inputValue: string,
+    currentTeam?: TeamDetails,
+    getTeams: () => void
   };
 
 export default function UpdateBtn(props: Props) {
 
 
-/*     async function deleteTeam(event: any) {
+    async function uppdateTeam(event: any) {
         
         event.stopPropagation() //To stop bubbling
-        await fetch(`http://localhost:3000/api/delete-team/${props.teamId}`, {
-            method: "DELETE",
-            headers: { 'Content-Type': 'application/json' },
-        })
-        props.getTeams()
-    } */
+
+        const updateObj = {
+            name: props.inputValue,
+            pkmn: props.currentTeam?.pkmn
+        }
+        
+        if(props.currentTeam) {
+            const response = await fetch(`http://localhost:3000/api/update-team/${props.currentTeam.id}`, {
+                method: "PUT",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updateObj)
+            })
+            const jsonData = await response.json()
+            console.log("update res, ", jsonData)
+            props.setIsModalOpen()
+            props.getTeams()
+        }
+        
+    }
 
     return (
                                                     
-        <button style={btn}>
+        <button 
+            style={btn}
+            onClick={(event) => uppdateTeam(event)}
+            >    
             Update
         </button>
     )

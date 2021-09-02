@@ -30,8 +30,8 @@ export default function Card(props: Props) {
     return (
                                                     
         <div onClick={() => handleSelector()} style={{...props.isSelectedStyle, ...card, ...props.styling}}>
-            {renderTitle()}
             {props.children}
+            {renderTitle()}
         </div>
     )
 }
@@ -53,5 +53,6 @@ const card: CSSProperties = {
 const titleStyle: CSSProperties = {
     fontSize: "1.2em",
     margin: 0,
+    textTransform: "capitalize"
 }
     

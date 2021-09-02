@@ -6,6 +6,7 @@ import PkmnCounter from "./pkmnCounter";
 interface Props {
     selectedPkmns: PokemonDetail[],
     getTeams: () => void
+    resetIsSelected: () => void
 }
 
 interface State {
@@ -20,10 +21,17 @@ export default class FloatingBtns extends React.Component<Props, State> {
         }
     }
 
-    updateInputValue = (event: any) => {
+    updateInputValue = (event?: any) => {
+        if(event) {
             this.setState({
-              inputValue: event.target.value
-            }, () => console.log(this.state.inputValue));          
+                inputValue: event.target.value
+            });          
+        }
+        else {
+            this.setState({
+                inputValue: ""
+            })
+        }
     }
 
 
@@ -32,13 +40,28 @@ export default class FloatingBtns extends React.Component<Props, State> {
         if(this.props.selectedPkmns.length) {
             return (
                 <div style={btnWrapper}>
-                    <input style={input} placeholder="Team name" value={this.state.inputValue} onChange={this.updateInputValue}></input>
+                    <input 
+                        style={input} 
+                        placeholder="Team name" 
+                        value={this.state.inputValue} 
+                        onChange={this.updateInputValue}>
+                    </input>
                     <PkmnCounter selectedPkmns={this.props.selectedPkmns}/>
-                    <NewTeamBtn 
-                        inputValue={this.state.inputValue} 
-                        selectedPkmn={this.props.selectedPkmns} 
-                        getTeams={this.props.getTeams} 
-                    />
+                    <div style={btnWrapp}>
+                        <NewTeamBtn 
+                            inputValue={this.state.inputValue} 
+                            selectedPkmn={this.props.selectedPkmns} 
+                            getTeams={this.props.getTeams} 
+                            resetIsSelected={this.props.resetIsSelected}
+                            updateInputValue={this.updateInputValue}
+                        />
+                        <button 
+                            style={closeBtn}
+                            onClick={() => this.props.resetIsSelected()}
+                        >
+                            Close
+                        </button>
+                    </div>
                 </div>
             )
         }
@@ -49,7 +72,7 @@ export default class FloatingBtns extends React.Component<Props, State> {
 }
 
 const btnWrapper: CSSProperties = {
-    backgroundColor: "yellow",
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
     position: "absolute",
     bottom: "10%",
     right: 0,
@@ -61,27 +84,30 @@ const btnWrapper: CSSProperties = {
     justifyContent: "center",
     maxWidth: "20%",
     borderRadius: "15px",
-    padding: "10px",
+    padding: "20px",
+    border: "2px solid white"
 }
 
 const input: CSSProperties = {
-    fontSize: "1.2em",
-    maxWidth: "100%"
+    fontSize: "1.5em",
+    backgroundColor: "rgb(230, 230, 230)",
+    border: "3px solid rgb(102, 153, 255)",
+    borderRadius: "10px"
+
 }
 
-/* const round: CSSProperties = {
-    backgroundColor: "red",
-    padding: "10px",
-    borderRadius: "100%",
-    marginRight: "5px"
+const closeBtn: CSSProperties = {
+    fontSize: "1.5em",
+    width: "40%",
+    alignSelf: "center",
+ /*    marginTop: "15px", */
+    backgroundColor: "rgb(255, 51, 51)",
+    borderRadius: "5px",
+    border: "none",
+    padding: "5px",
 }
 
-const pokeCounterDiv: CSSProperties = {
+const btnWrapp: CSSProperties = {
     display: "flex",
-    marginTop: "5px",
-    marginBottom: "5px",
-    justifyContent: "space-evenly",
-    backgroundColor: "lightgray",
-    paddingTop: "5px",
-    paddingBottom: "5px"
-} */
+    justifyContent: "space-evenly"
+}

@@ -7,7 +7,8 @@ import { PokemonDetail } from "./main";
 
 interface Props {
     pokemon: PokemonDetail[],
-    updatePkmnState: (state: any) => void
+    updatePkmnState: (state: any) => void,
+    selectedPkmns: PokemonDetail[]
 }
 
 
@@ -25,8 +26,17 @@ export default class Pokemons extends React.Component<Props> {
         let clonedArray = this.props.pokemon
         let pkmn = clonedArray.find(foundPokemon)
         if(pkmn) {
-            pkmn.isSelected = !pkmn.isSelected
-            this.props.updatePkmnState(clonedArray)
+            if(this.props.selectedPkmns.length < 6) {
+                pkmn.isSelected = !pkmn.isSelected
+                this.props.updatePkmnState(clonedArray)
+            }
+            else if(this.props.selectedPkmns.length >= 6 && !pkmn.isSelected) {
+                window.alert("Can't pick more than 6 pokemons")
+            }
+            else if(this.props.selectedPkmns.length >= 6) {
+                pkmn.isSelected = false
+                this.props.updatePkmnState(clonedArray)
+            }
         } 
         
     }

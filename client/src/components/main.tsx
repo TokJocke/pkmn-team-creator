@@ -11,7 +11,7 @@ interface Props {
 interface State {
     pokemon: PokemonDetail[],
     teams: TeamDetails[],
-    selectedPkmns: any[],
+    selectedPkmns: PokemonDetail[],
     isUpdateViewOpen: boolean,
     currentTeam?: TeamDetails
 }
@@ -25,7 +25,7 @@ export interface PokemonDetail {
 export interface TeamDetails {
     id: number,
     name: string,
-    pkmn: string[]
+    pkmn: PokemonDetail[]
     isSelected?: boolean
 }
 
@@ -41,6 +41,18 @@ export default class Main extends React.Component<Props, State> {
             isUpdateViewOpen: false,
         };
     }
+    /* Varför uppdaterar denna state? */
+    resetIsSelected: () => void = () => {
+        const clonedPkmnArray = [...this.state.pokemon]
+        const newList = clonedPkmnArray.map((pkmn) => {
+            const selectedPkmn = {...pkmn}
+            if(selectedPkmn.isSelected) {
+                selectedPkmn.isSelected = false
+            }
+            return selectedPkmn
+        })
+        this.updatePkmnState(newList)
+    }
 
     setisUpdateViewOpen: (team?: TeamDetails, event?: any) => void = (team?, event?) => {
         if(event) {
@@ -55,7 +67,7 @@ export default class Main extends React.Component<Props, State> {
     setCurrentTeam: (team: any) => void = (team) => {
         this.setState({
             currentTeam: team
-        }, () => console.log(this.state.currentTeam))
+        })
     }
 
     updatePkmnState: (newState: any) => void = (newState: any) => {
@@ -67,7 +79,7 @@ export default class Main extends React.Component<Props, State> {
     updateTeamState: (newState: any) => void = (newState: any) => {
         this.setState({
             teams: newState
-        }, () => console.log("new state in main: ", this.state))
+        })
     }
 
     getSelectedPkmns() { 
@@ -75,10 +87,10 @@ export default class Main extends React.Component<Props, State> {
             let selected: any = []
             this.state.pokemon.forEach(pkmn => {
                 if(pkmn.isSelected) {
-                    selected.push(pkmn.id)
+                    selected.push(pkmn)
                 }
             });
-            this.setState({selectedPkmns: selected}, () => console.log(this.state.selectedPkmns))
+            this.setState({selectedPkmns: selected})
         }
     }
     
@@ -93,7 +105,7 @@ export default class Main extends React.Component<Props, State> {
                 isSelected: false
             }
         })
-        this.setState({pokemon: allPokemons}, () => { console.log(this.state) })
+        this.setState({pokemon: allPokemons})
     };
 
     getTeams = async () => {
@@ -108,7 +120,7 @@ export default class Main extends React.Component<Props, State> {
                 pkmn: team.pkmn,
             }
         })
-        this.setState({teams: allTeams}, () => { console.log("team state in getTeams =",this.state.teams) })
+        this.setState({teams: allTeams})
     };
     
     componentDidMount() {
@@ -118,7 +130,6 @@ export default class Main extends React.Component<Props, State> {
         if(!this.state.teams.length) {
             this.getTeams() 
         }
-        console.log("bg", bgImg)
     }
  
     render() {
@@ -128,6 +139,7 @@ export default class Main extends React.Component<Props, State> {
                     <Pokemons 
                         pokemon={this.state.pokemon} 
                         updatePkmnState={this.updatePkmnState}
+                        selectedPkmns={this.state.selectedPkmns}
                     />
                 </Section>
                 <Section>
@@ -140,7 +152,11 @@ export default class Main extends React.Component<Props, State> {
                 </Section>  
                 {
                     this.state.pokemon.length? 
-                        <FloatingBtns selectedPkmns={this.state.selectedPkmns} getTeams={this.getTeams}/> 
+                        <FloatingBtns 
+                            selectedPkmns={this.state.selectedPkmns} 
+                            getTeams={this.getTeams}
+                            resetIsSelected={this.resetIsSelected}
+                        /> 
                         : 
                         null 
                 }
@@ -151,6 +167,7 @@ export default class Main extends React.Component<Props, State> {
                             currentTeam={this.state.currentTeam}
                             pokemonList={this.state.pokemon}
                             setCurrentTeam={this.setCurrentTeam}
+                            getTeams={this.getTeams}
                             />
                         :
                         null
@@ -163,8 +180,7 @@ export default class Main extends React.Component<Props, State> {
 const wrapper: CSSProperties = {
     width: "100vw",
     height: "100vh",
-/*     backgroundColor: "blue",
- */    display: "flex",
+    display: "flex",
     overflow: "auto",
     backgroundImage: `url(${bgImg})`
 }

@@ -1,13 +1,10 @@
-import { platform } from "os";
 import React, { CSSProperties } from "react";
-import { useState } from "react";
 import { PokemonDetail, TeamDetails } from "./main";
 
 type Props = {
     pokemon: any
     allPokemons?: PokemonDetail[]
     currentTeam?: TeamDetails
- /*    setNewTeam?: (team?: TeamDetails) => void */
     setCurrentTeam?: (team: any) => void
 
   };
@@ -28,13 +25,17 @@ export default class PkmnDropDown extends React.Component<Props, State> {
     test(la: any) {
         console.log("current: ", this.props.pokemon, "new: ", la, "currentTeam: ", this.props.currentTeam)
     }
-
+    /* 
+        If one pokemon, is selected twice map gives error cuz id aint unique.
+        For further development add quantity attribute or take away possibilty
+        to choose the same pokemon twice
+     */
     changePkmn(newPkmn: any) {
 
         if(this.props.pokemon !== newPkmn.id) {
             console.log(this.props.pokemon, "!==", newPkmn.id)
             if(this.props.currentTeam) {
-                const newTeam: string[] = this.props.currentTeam?.pkmn.map(pkmn => pkmn == this.props.pokemon? newPkmn.id : pkmn)
+                const newTeam: TeamDetails[] = this.props.currentTeam?.pkmn.map(pkmn => pkmn === this.props.pokemon? newPkmn : pkmn)
                 console.log("newTeam: ", newTeam)
                 if(this.props.setCurrentTeam)  {
                     const finalTeam: TeamDetails = {
@@ -42,7 +43,6 @@ export default class PkmnDropDown extends React.Component<Props, State> {
                         name: this.props.currentTeam?.name,
                         pkmn: newTeam,
                     }
-                 
                     this.props.setCurrentTeam(finalTeam)
                 }   
             }
