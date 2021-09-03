@@ -1,4 +1,4 @@
-#Pokemon Creator
+Title: Pokemon Creator
 
 Pokemon Creator is an app that lets you create, save and share pokemon teams. 
 The app/page is created with React for the client side and Node Express for server side. Instead of using a database data i saved to a JSON file.
