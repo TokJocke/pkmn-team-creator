@@ -21,13 +21,11 @@ export default function UpdateBtn(props: Props) {
         }
         
         if(props.currentTeam) {
-            const response = await fetch(`http://localhost:3000/api/update-team/${props.currentTeam.id}`, {
+            await fetch(`http://localhost:3000/api/update-team/${props.currentTeam.id}`, {
                 method: "PUT",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(updateObj)
             })
-            const jsonData = await response.json()
-            console.log("update res, ", jsonData)
             props.setIsModalOpen()
             props.getTeams()
         }
@@ -53,7 +51,8 @@ const btn: CSSProperties = {
     marginTop: "15px",
     marginBottom: "15px",
     alignSelf: "center",
-    borderRadius: "15px",
+    borderRadius: "5px",
     border: "none",
-    padding: "5px"
+    padding: "5px",
+    cursor: "pointer",
 }

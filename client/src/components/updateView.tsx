@@ -1,7 +1,5 @@
 import React, { CSSProperties } from "react";
-import ReactDOM from "react-dom";
 import { PokemonDetail, TeamDetails } from "./main";
-import PkmnDropDown from "./pkmnDropDown";
 import TeamMember from "./teamMember";
 import UpdateBtn from "./updateBtn";
 
@@ -36,10 +34,9 @@ interface State {
             return (
                 <div style={pkmnWrapp}>
                     {this.props.currentTeam.pkmn.map((item) => {
-                        console.log("oldTeam", item)
                         return (  
                             <TeamMember 
-                                key={item.id} 
+                                key={item} 
                                 pokemon={item} 
                                 changeBtn={true}
                                 allPokemons={this.props.pokemonList}
@@ -64,12 +61,9 @@ interface State {
     updateInputValue = (event: any) => {
         this.setState({
           inputValue: event.target.value
-        }, () => console.log(this.state.inputValue));          
+        });          
     }
 
-    componentDidMount() {
-        console.log(this.props.currentTeam, this.state.inputValue)
-    }
 
     render() {
         return (
@@ -82,12 +76,20 @@ interface State {
                         onChange={this.updateInputValue}>
                     </input>
                     {this.renderTeam()}
-                    <UpdateBtn 
-                        setIsModalOpen={this.props.setIsModalOpen}
-                        inputValue={this.state.inputValue}
-                        currentTeam={this.props.currentTeam}
-                        getTeams={this.props.getTeams}
-                    />
+                    <div style={btnWrapp}>
+                        <UpdateBtn 
+                            setIsModalOpen={this.props.setIsModalOpen}
+                            inputValue={this.state.inputValue}
+                            currentTeam={this.props.currentTeam}
+                            getTeams={this.props.getTeams}
+                        />
+                        <button
+                            style={btnStyle}
+                            onClick={() => this.props.setIsModalOpen()}
+                        >
+                            Close
+                        </button>
+                    </div>
                 </div>
             </div>
         )
@@ -129,4 +131,23 @@ const inputStyle: CSSProperties = {
     width: "40%",
     fontSize: "1.5em",
     marginBottom: "15px"
+}
+
+const btnStyle: CSSProperties = {
+    backgroundColor: "rgb(255, 100, 100)",
+    width: "20%",
+    fontSize: "1.5em",
+    marginTop: "15px",
+    marginBottom: "15px",
+    alignSelf: "center",
+    borderRadius: "5px",
+    border: "none",
+    padding: "5px",
+    cursor: "pointer",
+}
+
+const btnWrapp: CSSProperties = {
+    display: "flex",
+    justifyContent: "center",
+
 }

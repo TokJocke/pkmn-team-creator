@@ -28,23 +28,22 @@ export default class TeamMember extends React.Component<Props, State> {
             loading: true
         };
     }
-       
-    getPokemonDetails = async () => {
-
-        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${this.props.pokemon.id}`);
-        const jsonData = await response.json();
-
-        this.setState({
-            pokemonDetails: jsonData
-        }, () => this.setState({loading: false}))
-    };
-
-
     async componentDidMount() {
         if(!this.state.pokemonDetails.length) {
             await this.getPokemonDetails()
         }
     }
+       
+    getPokemonDetails = async () => {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${this.props.pokemon}`);
+        const jsonData = await response.json();
+        
+        this.setState({
+            pokemonDetails: jsonData
+        }, () => this.setState({loading: false}))
+    };
+    
+    
 
     
     renderStats() {
@@ -52,7 +51,7 @@ export default class TeamMember extends React.Component<Props, State> {
             return(
                 <div style={teamMemberWrap}>
                     <p>{this.state.pokemonDetails.name}</p>
-                    <img src={this.state.pokemonDetails.sprites.front_default}></img>
+                    <img src={this.state.pokemonDetails.sprites.front_default} alt={"pkmn sprite"}></img>
                     <div style={statWrapp}>
                         <p style={statStyle}>HP: {this.state.pokemonDetails.stats[0].base_stat}</p>   
                         <p style={statStyle}>ATK: {this.state.pokemonDetails.stats[1].base_stat}</p>   
@@ -67,7 +66,7 @@ export default class TeamMember extends React.Component<Props, State> {
             return(
                 <div style={teamMemberWrap}>
                     <p>{this.state.pokemonDetails.name}</p>
-                    <img src={this.state.pokemonDetails.sprites.front_default}></img>
+                    <img src={this.state.pokemonDetails.sprites.front_default} alt={"pkmn sprite"}></img>
                     {this.props.changeBtn? 
                         <PkmnDropDown 
                             pokemon={this.props.pokemon} 

@@ -49,7 +49,7 @@ export default class SingleView extends React.Component<RouteComponentProps<{ te
                     <div style={container}>
                         {this.state.team.pkmn.map((item) => {
                             return <TeamMember 
-                                        key={item.id} 
+                                        key={item} 
                                         pokemon={item} 
                                         additionalStats={true}
                                         >

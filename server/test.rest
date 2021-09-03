@@ -21,7 +21,7 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3000/api/delete-team/b881cab9-d7ad-46cc-9b05-ec7d455aaf06
+DELETE http://localhost:3000/api/delete-team/1
 
 
 ###

@@ -22,9 +22,6 @@ export default class PkmnDropDown extends React.Component<Props, State> {
         }
     }
 
-    test(la: any) {
-        console.log("current: ", this.props.pokemon, "new: ", la, "currentTeam: ", this.props.currentTeam)
-    }
     /* 
         If one pokemon, is selected twice map gives error cuz id aint unique.
         For further development add quantity attribute or take away possibilty
@@ -33,10 +30,8 @@ export default class PkmnDropDown extends React.Component<Props, State> {
     changePkmn(newPkmn: any) {
 
         if(this.props.pokemon !== newPkmn.id) {
-            console.log(this.props.pokemon, "!==", newPkmn.id)
             if(this.props.currentTeam) {
-                const newTeam: TeamDetails[] = this.props.currentTeam?.pkmn.map(pkmn => pkmn === this.props.pokemon? newPkmn : pkmn)
-                console.log("newTeam: ", newTeam)
+                const newTeam: any = this.props.currentTeam?.pkmn.map(pkmn => pkmn === this.props.pokemon? newPkmn.id : pkmn)
                 if(this.props.setCurrentTeam)  {
                     const finalTeam: TeamDetails = {
                         id: this.props.currentTeam?.id,
@@ -68,7 +63,7 @@ export default class PkmnDropDown extends React.Component<Props, State> {
     render() {
         return (
             <div style={wrapp}>
-                <button style={btn} onClick={() => this.setState({isShowing: !this.state.isShowing}, () => console.log(this.state))}>
+                <button style={btn} onClick={() => this.setState({isShowing: !this.state.isShowing})}>
                     Change
                 </button>
                 {

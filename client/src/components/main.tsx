@@ -25,7 +25,7 @@ export interface PokemonDetail {
 export interface TeamDetails {
     id: number,
     name: string,
-    pkmn: PokemonDetail[]
+    pkmn: string[]
     isSelected?: boolean
 }
 
