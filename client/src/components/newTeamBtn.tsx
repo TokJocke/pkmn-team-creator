@@ -1,8 +1,9 @@
 import React, { CSSProperties } from "react";
+import { PokemonDetail } from "./main";
 
 type Props = {
     inputValue: string
-    selectedPkmn: any[]
+    selectedPkmn: PokemonDetail[]
     getTeams: () => void
     resetIsSelected: () => void,
     updateInputValue: (event?: any) => void
@@ -10,11 +11,12 @@ type Props = {
 
 export default function NewTeamBtn(props: Props) {
 
+    let filterdPkmn = props.selectedPkmn.map((pkmn) => pkmn.id)
+  
     const team = {
         name: props.inputValue,
-        pkmn: props.selectedPkmn
+        pkmn: filterdPkmn
     }
-
 
     async function postNewTeam() {
         
@@ -23,7 +25,6 @@ export default function NewTeamBtn(props: Props) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(team)
         })
-        //console.log(response)
         props.getTeams()
         props.resetIsSelected()
         props.updateInputValue()

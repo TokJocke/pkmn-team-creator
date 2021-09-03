@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Card from "./card";
 import DeleteBtn from "./deleteBtn";
 import List from "./list";
-import { PokemonDetail, TeamDetails } from "./main";
+import { TeamDetails } from "./main";
 import TeamMember from "./teamMember";
 
 interface Props {
@@ -73,13 +73,11 @@ export default class Teams extends React.Component<Props> {
                                 <div style={teamContainer}>
                                     {
                                         team.isSelected? 
-                                            team.pkmn.map((pk: PokemonDetail) => {
-                                                console.log(pk)
+                                            team.pkmn.map((pk: any) => {
                                                 return <TeamMember 
-                                                            key={pk.id}/* Felet ligger här!!!!!! */
+                                                            key={pk}/* Felet ligger här!!!!!! */
                                                             pokemon={pk}
-                                                        />
-                                                
+                                                        /> 
                                             }) 
                                             : 
                                             null
